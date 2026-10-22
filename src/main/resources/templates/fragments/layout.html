@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title}">Başlık</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div class="navbar" th:fragment="navbar">
+        <div class="navbar-brand">Acil Radyoloji Raporlama Asistanı</div>
+        <div class="navbar-actions">
+            <form th:action="@{/cikis}" method="post">
+                <button type="submit" class="link-button">Çıkış Yap</button>
+            </form>
+        </div>
+    </div>
+    <div class="tabs" th:fragment="tabs(active)">
+        <a class="tab-button" th:classappend="${active == 'raporlarim'} ? 'active'"
+            th:href="@{/raporlar}">Raporlarım</a>
+        <a class="tab-button" th:classappend="${active == 'hastalar'} ? 'active'" th:href="@{/hastalar}">Hasta Seç</a>
+    </div>
+</body>
+
+</html>

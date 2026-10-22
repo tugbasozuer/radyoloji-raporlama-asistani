@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rapor Detayı</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-body">
+  <div class="navbar">
+    <div class="navbar-brand">Acil Radyoloji Raporlama Asistanı</div>
+    <div class="navbar-actions">
+      <a href="giris.html">Çıkış Yap</a>
+    </div>
+  </div>
+
+  <div class="page-container narrow">
+    <div class="page-header badge-only">
+      <span id="statusBadge" class="badge badge-draft">TASLAK</span>
+    </div>
+
+    <div class="info-panels stack">
+      <div class="info-panel compact">
+        <h2>Hasta Bilgileri</h2>
+        <div class="kv-row">
+          <div class="kv"><span class="label">Ad Soyad</span><span class="value">Ayşe Yılmaz</span></div>
+          <div class="kv"><span class="label">Yaş</span><span class="value">47</span></div>
+          <div class="kv"><span class="label">Cinsiyet</span><span class="value">Kadın</span></div>
+          <div class="kv"><span class="label">Hasta Dosya No</span><span class="value">2026-00481</span></div>
+          <div class="kv"><span class="label">TC Kimlik No</span><span class="value">*******412</span></div>
+        </div>
+      </div>
+
+      <div class="info-panel compact">
+        <h2>Tetkik Bilgileri</h2>
+        <div class="kv-row">
+          <div class="kv"><span class="label">Protokol No</span><span class="value">P-2026-108452</span></div>
+          <div class="kv"><span class="label">Tetkik Türü</span><span class="value">BT</span></div>
+          <div class="kv"><span class="label">Anatomik Bölge</span><span class="value">Kranial</span></div>
+          <div class="kv"><span class="label">Tetkik Tarihi/Saati</span><span class="value">30.09.2026 13:40</span></div>
+          <div class="kv"><span class="label">İstem Yapan Hekim/Klinik</span><span class="value">Acil Servis</span></div>
+          <div class="kv"><span class="label">Acil Servis</span><span class="value">Evet</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card report-center" id="reportSection">
+      <div class="report-content-block">
+        <span class="label">Aciliyet</span>
+        <div><span class="badge badge-rutin" id="urgencyBadge">RUTİN</span></div>
+      </div>
+      <div class="report-content-block">
+        <span class="label">Bulgular</span>
+        <div class="report-readonly-text findings-view" id="bulgularView"></div>
+      </div>
+      <div class="report-content-block">
+        <span class="label">Sonuç / Öneriler</span>
+        <div class="report-readonly-text findings-view" id="sonucView"></div>
+      </div>
+
+      <div class="action-row" id="draftViewActions">
+        <button type="button" class="btn-secondary" id="btnDegistir">Değiştir</button>
+        <button type="button" class="btn-danger" id="btnSil">Sil</button>
+        <button type="button" class="btn-success" id="btnOnayla">Onayla</button>
+        <a href="rapor-listesi.html" class="btn-secondary" style="text-decoration:none;display:inline-flex;align-items:center;">Vazgeç</a>
+      </div>
+      <div class="field-hint" id="approveHint"></div>
+
+      <div class="action-row hidden" id="approvedActions">
+        <button type="button" class="btn-secondary" id="btnDuzeltmeAc">Düzeltme Aç</button>
+        <a href="rapor-listesi.html" class="btn-secondary" style="text-decoration:none;display:inline-flex;align-items:center;">Raporlarım'a Dön</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="rapor.js"></script>
+  <script>
+    // Mockup verisi — gerçek uygulamada GET /api/reports/{id} ile gelecek;
+    // bu ekran TASLAK veya ONAYLANDI, hangi rapor açıldıysa o durumda başlar.
+    const report = sampleReport();
+
+    // Değiştir: doktor Rapor Girdisi bölümlerini düzenler (rapor-olustur.html, düzenleme modu).
+    $("btnDegistir").addEventListener("click", () => { location.href = "rapor-olustur.html?duzenle=1"; });
+
+    $("btnSil").addEventListener("click", () => {
+      if (confirm("Bu raporu silmek istediğinize emin misiniz? Bu işlem geri alınamaz.")) {
+        location.href = "rapor-listesi.html";
+      }
+    });
+
+    $("btnOnayla").addEventListener("click", () => { report.status = "ONAYLANDI"; renderReportCard(report); });
+
+    // Onaylı rapor değişmez; düzeltme, onaylı kaydı koruyup yeni bir TASLAK açar.
+    $("btnDuzeltmeAc").addEventListener("click", () => { report.status = "TASLAK"; renderReportCard(report); });
+
+    renderReportCard(report);
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Kayıt Ol')}"></head>
+
+<body>
+    <div class="auth-wrapper">
+        <div class="brand">
+            <p class="brand-title">Acil Radyoloji Raporlama Asistanı</p>
+            <p class="brand-subtitle">Yapay zeka destekli raporlama sistemi</p>
+        </div>
+
+        <div class="auth-card">
+            <h1>Kayıt Ol</h1>
+            <form th:action="@{/kayit}" th:object="${form}" method="post">
+                <div class="field">
+                    <label for="fullName">Ad Soyad</label>
+                    <input type="text" th:field="*{fullName}" placeholder="ör. Ayşe Yılmaz" autocomplete="name">
+                    <div class="field-error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
+                </div>
+                <div class="field">
+                    <label for="title">Ünvan <span class="optional">(isteğe bağlı)</span></label>
+                    <select th:field="*{title}">
+                        <option value="">Seçiniz</option>
+                        <option th:each="t : ${titles}" th:value="${t}" th:text="${t.displayName}"></option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="phoneNumber">Telefon No <span class="optional">(isteğe bağlı)</span></label>
+                    <input type="tel" th:field="*{phoneNumber}" placeholder="ör. 0532 000 00 00" autocomplete="tel">
+                    <div class="field-error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="registrationNumber">Sicil / Diploma No <span class="optional">(isteğe
+                            bağlı)</span></label>
+                    <input type="text" th:field="*{registrationNumber}">
+                    <div class="field-error" th:if="${#fields.hasErrors('registrationNumber')}"
+                        th:errors="*{registrationNumber}"></div>
+                </div>
+                <div class="field">
+                    <label for="department">Birim <span class="optional">(isteğe bağlı)</span></label>
+                    <select th:field="*{department}">
+                        <option value="">Seçiniz</option>
+                        <option th:each="d : ${departments}" th:value="${d}" th:text="${d.displayName}"></option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="email">E-posta adresi</label>
+                    <input type="email" th:field="*{email}" placeholder="ör. tugba@ornek.com" autocomplete="email">
+                    <div class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+                <div class="field">
+                    <label for="password">Şifre</label>
+                    <input type="password" th:field="*{password}" placeholder="••••••••" autocomplete="new-password">
+                    <div class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                </div>
+                <div class="field">
+                    <label for="passwordConfirm">Şifre (tekrar)</label>
+                    <input type="password" th:field="*{passwordConfirm}" placeholder="••••••••"
+                        autocomplete="new-password">
+                    <div class="field-error" th:if="${#fields.hasErrors('passwordConfirm')}"
+                        th:errors="*{passwordConfirm}"></div>
+                </div>
+                <button type="submit" class="btn-primary">Kayıt Ol</button>
+            </form>
+            <div class="auth-switch">
+                Zaten hesabınız var mı? <a th:href="@{/giris}">Giriş yapın</a>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/form.js}"></script>
+</body>
+
+</html>

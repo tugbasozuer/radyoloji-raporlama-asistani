@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Hasta Seç')}"></head>
+
+<body class="app-body" data-remember-page>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="page-container" style="max-width: 1080px;">
+        <div th:replace="~{fragments/layout :: tabs('hastalar')}"></div>
+        <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+        <div class="alert alert-error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+        <div class="page-header">
+            <h1>Hasta Seç</h1>
+        </div>
+
+        <div class="split-layout">
+            <div class="patient-list-col">
+                <form class="search-bar" th:action="@{/hastalar}" method="get">
+                    <input type="text" name="q" th:value="${q}" autocomplete="off"
+                        placeholder="Ad soyad veya Dosya No ile ara...">
+                </form>
+                <div th:if="${#lists.isEmpty(patients)}"
+                    style="padding: 14px; font-size: 13px; color: var(--color-text-muted);">
+                    Hasta bulunamadı.
+                </div>
+                <a th:each="p : ${patients}" class="patient-list-item"
+                    th:classappend="${selectedPatient != null and p.id == selectedPatient.id} ? 'active'"
+                    th:href="@{/hastalar(q=${q}, hastaId=${p.id})}">
+                    <div class="p-name" th:text="${p.fullName}"></div>
+                    <div class="p-meta" th:text="${p.patientFileNumber + ' · ' + p.age + ' / ' + p.gender}"></div>
+                </a>
+            </div>
+
+            <div class="patient-detail-col" th:if="${selectedPatient != null}">
+                <div class="detail-section">
+                    <div class="detail-section-header">
+                        <h2>Hasta Bilgileri</h2>
+                    </div>
+                    <div class="info-panel">
+                        <div class="info-row"><span class="label">Ad Soyad</span><span class="value"
+                                th:text="${selectedPatient.fullName}"></span></div>
+                        <div class="info-row"><span class="label">Yaş</span><span class="value"
+                                th:text="${selectedPatient.age}"></span></div>
+                        <div class="info-row"><span class="label">Cinsiyet</span><span class="value"
+                                th:text="${selectedPatient.gender}"></span></div>
+                        <div class="info-row"><span class="label">Hasta Dosya No</span><span class="value"
+                                th:text="${selectedPatient.patientFileNumber}"></span></div>
+                        <div class="info-row"><span class="label">TC Kimlik No</span><span class="value"
+                                th:text="${selectedPatient.maskedNationalId}"></span></div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-header">
+                        <h2>Önceki Raporlar</h2>
+                    </div>
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>Tarih</th>
+                                <th>Tetkik Türü</th>
+                                <th>Anatomik Bölge</th>
+                                <th>Yazan Hekim</th>
+                                <th>Durum</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(patientReports)}">
+                                <td colspan="6" style="color: var(--color-text-muted);">Bu hastaya ait daha önce
+                                    yazılmış rapor yok.</td>
+                            </tr>
+                            <tr th:each="r : ${patientReports}">
+                                <td th:text="${#temporals.format(r.createdAt, 'dd.MM.yyyy HH:mm')}"></td>
+                                <td th:text="${r.examType.displayName}"></td>
+                                <td th:text="${r.anatomicalRegion.displayName}"></td>
+                                <td th:text="${r.createdByName}"></td>
+                                <td>
+                                    <span
+                                        th:class="'badge ' + (${r.status.name() == 'TASLAK'} ? 'badge-draft' : 'badge-approved')"
+                                        th:text="${r.status.displayName}"></span>
+                                </td>
+                                <td><a th:href="@{/raporlar/{id}(id=${r.id})}">Görüntüle</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <a class="btn-primary-inline" th:href="@{/raporlar/yeni(hastaId=${selectedPatient.id})}">+ Yeni
+                    Rapor</a>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/navigation.js}"></script>
+
+</body>
+
+</html>

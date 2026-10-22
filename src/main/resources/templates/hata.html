@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head(${title})}"></head>
+
+<body class="app-body">
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="page-container narrow">
+        <div class="form-card report-center">
+            <h1 th:text="${title}"></h1>
+            <p th:text="${message}"></p>
+            <div class="action-row">
+                <a class="btn-secondary" th:href="@{/raporlar}">Raporlarım'a Dön</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

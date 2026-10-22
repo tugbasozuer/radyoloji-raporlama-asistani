@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Rapor Detayı')}"></head>
+
+<body class="app-body">
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="page-container narrow">
+        <a class="back-button" data-back-to-list th:href="@{/raporlar}"><span aria-hidden="true">←</span> Geri</a>
+
+        <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+        <div class="alert alert-warning" th:if="${warningMessage}" th:text="${warningMessage}"></div>
+        <div class="alert alert-error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+        <div class="page-header badge-only">
+            <span class="badge" th:classappend="${approved} ? 'badge-approved' : 'badge-draft'"
+                th:text="${report.status.displayName}"></span>
+        </div>
+
+        <div class="info-panels stack">
+            <div class="info-panel compact">
+                <h2>Hasta Bilgileri</h2>
+                <div class="kv-row">
+                    <div class="kv"><span class="label">Ad Soyad</span><span class="value"
+                            th:text="${report.patient.fullName}"></span></div>
+                    <div class="kv"><span class="label">Yaş</span><span class="value"
+                            th:text="${report.patient.age}"></span></div>
+                    <div class="kv"><span class="label">Cinsiyet</span><span class="value"
+                            th:text="${report.patient.gender}"></span></div>
+                    <div class="kv"><span class="label">Hasta Dosya No</span><span class="value"
+                            th:text="${report.patient.patientFileNumber}"></span></div>
+                    <div class="kv"><span class="label">TC Kimlik No</span><span class="value"
+                            th:text="${report.patient.maskedNationalId}"></span></div>
+                </div>
+            </div>
+
+            <div class="info-panel compact">
+                <h2>Tetkik Bilgileri</h2>
+                <div class="kv-row">
+                    <div class="kv"><span class="label">Protokol No</span><span class="value"
+                            th:text="${report.protocolNumber}"></span></div>
+                    <div class="kv"><span class="label">Tetkik Türü</span><span class="value"
+                            th:text="${report.examType.displayName}"></span></div>
+                    <div class="kv"><span class="label">Anatomik Bölge</span><span class="value"
+                            th:text="${report.anatomicalRegion.displayName}"></span></div>
+                    <div class="kv"><span class="label">Tetkik Tarihi/Saati</span><span class="value"
+                            th:text="${#temporals.format(report.examDateTime, 'dd.MM.yyyy HH:mm')}"></span></div>
+                    <div class="kv"><span class="label">İstem Yapan Hekim/Klinik</span><span class="value"
+                            th:text="${report.requester}"></span></div>
+                    <div class="kv"><span class="label">Acil Servis</span><span class="value"
+                            th:text="${report.fromEmergencyDepartment} ? 'Evet' : 'Hayır'"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-card report-center">
+            <div class="field-hint" th:if="${report.previousRecordId != null}" style="margin-bottom: 14px;">
+                Bu rapor, onaylı bir raporun düzeltmesidir. Önceki onaylı kayıt değişmeden saklanır.
+                <a th:href="@{/raporlar/{id}(id=${report.previousRecordId})}">Düzeltilen onaylı raporu görüntüle</a>
+            </div>
+
+            <div class="report-content-block">
+                <span class="label">Aciliyet</span>
+                <div>
+                    <span th:class="'badge badge-' + ${#strings.toLowerCase(report.urgencyLevel.name())}"
+                        th:text="${report.urgencyLevel.displayName}"></span>
+                </div>
+            </div>
+
+            <div class="report-content-block">
+                <span class="label">Bulgular</span>
+                <div class="report-readonly-text findings-view">
+                    <p class="muted-text" th:if="${#strings.isEmpty(report.generatedFindings)}">Bulgular girilmedi.</p>
+                    <div class="findings-block" th:unless="${#strings.isEmpty(report.generatedFindings)}">
+                        <p class="pre-line" th:text="${report.generatedFindings}"></p>
+                        <span class="source-tag" th:classappend="${report.aiAssisted} ? 'source-yz' : 'source-kalip'"
+                            th:text="${report.aiAssisted} ? 'YZ ile yeniden yazıldı' : 'Kalıpla üretildi'"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-content-block">
+                <span class="label">Sonuç / Öneriler</span>
+                <div class="report-readonly-text findings-view">
+                    <div class="findings-block" th:if="${!#strings.isEmpty(report.generatedResult)}">
+                        <p class="pre-line" th:text="${report.generatedResult}"></p>
+                        <span class="source-tag"
+                            th:classappend="${report.aiAssisted} ? 'source-yz' : (${report.normalExam} ? 'source-onayli' : 'source-kalip')"
+                            th:text="${report.aiAssisted} ? 'YZ ile yeniden yazıldı' : (${report.normalExam} ? 'Onaylı sonuç cümlesi' : 'Hekim girdisi')"></span>
+                    </div>
+                    <div class="findings-block"
+                        th:if="${#strings.isEmpty(report.generatedResult) and !#strings.isEmpty(report.resultInput)}">
+                        <p class="pre-line" th:text="${report.resultInput}"></p>
+                        <span class="source-tag source-yz-bekliyor">Hekim girdisi · YZ ile Üret bekleniyor</span>
+                    </div>
+                    <p class="muted-text"
+                        th:if="${#strings.isEmpty(report.generatedResult) and #strings.isEmpty(report.resultInput)}">
+                        Sonuç / Öneriler girilmedi. "Değiştir" ile ekleyebilirsiniz.
+                    </p>
+                </div>
+            </div>
+
+            <div class="field-hint">
+                Yazan: <span th:text="${report.createdByName}"></span>
+                <span th:if="${approved}">
+                    · Onaylayan: <span th:text="${report.approvedByName}"></span>
+                    (<span th:text="${#temporals.format(report.approvedAt, 'dd.MM.yyyy HH:mm')}"></span>)
+                </span>
+            </div>
+
+            <div class="action-row" th:if="${canEdit}">
+                <form th:if="${canGenerate}" th:action="@{/raporlar/{id}/yz-uret(id=${report.id})}" method="post"
+                    data-busy-text="Üretiliyor…">
+                    <button type="submit" class="btn-primary-inline">YZ ile Üret</button>
+                </form>
+                <a class="btn-secondary" th:href="@{/raporlar/{id}/duzenle(id=${report.id})}">Değiştir</a>
+                <form th:action="@{/raporlar/{id}/sil(id=${report.id})}" method="post"
+                    data-confirm="Bu raporu silmek istediğinize emin misiniz? Bu işlem geri alınamaz.">
+                    <input type="hidden" name="geri">
+                    <button type="submit" class="btn-danger">Sil</button>
+                </form>
+                <form th:action="@{/raporlar/{id}/onayla(id=${report.id})}" method="post">
+                    <button type="submit" class="btn-success" th:disabled="${approveBlocked}">Onayla</button>
+                </form>
+            </div>
+            <div class="field-hint" th:if="${canEdit and approveBlocked}">
+                Onaylamak için Bulgular ve Sonuç dolu olmalı. Sonuç boşsa "YZ ile Üret"i kullanın ya da
+                "Değiştir" ile Sonuç / Öneriler girin.
+            </div>
+
+            <div class="field-hint" th:if="${!canEdit and !approved}" style="margin-top: 14px;">
+                Bu taslak <span th:text="${report.createdByName}"></span> tarafından yazıldı.
+                Taslağı yalnızca yazan hekim değiştirebilir, silebilir ve onaylayabilir.
+            </div>
+
+            <div class="action-row" th:if="${approved}">
+                <form th:action="@{/raporlar/{id}/duzeltme(id=${report.id})}" method="post"
+                    data-confirm="Bu onaylı rapor için yeni bir düzeltme taslağı açılsın mı?">
+                    <button type="submit" class="btn-secondary">Düzeltme Aç</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/actions.js}"></script>
+    <script th:src="@{/js/navigation.js}"></script>
+</body>
+
+</html>

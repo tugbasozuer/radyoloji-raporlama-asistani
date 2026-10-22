@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: radyoloji-postgres
+    environment:
+      # Degerler .env dosyasindan okunur (yoksa ':-' sonrasindaki varsayilan kullanilir).
+      POSTGRES_DB: ${DB_NAME:-radyoloji_raporlama_asistani}
+      POSTGRES_USER: ${DB_USER:-radyoloji_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-radyoloji_dev_pass}
+    ports:
+      - "5433:5432"   # sol: Mac portu (5432 baska bir PostgreSQL tarafindan kullaniliyor), sag: konteyner portu
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      # Veritabani baglanti kabul edene kadar uygulama baslatilmaz (asagidaki depends_on).
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-radyoloji_user} -d ${DB_NAME:-radyoloji_raporlama_asistani}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7
+    container_name: radyoloji-redis
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  app:
+    build: .          # Dockerfile'dan imaj uretir
+    container_name: radyoloji-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    environment:
+      # Konteynerler ayni Compose agindadir: birbirlerine servis adiyla ve konteyner portuyla ulasirlar.
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_NAME: ${DB_NAME:-radyoloji_raporlama_asistani}
+      DB_USER: ${DB_USER:-radyoloji_user}
+      DB_PASSWORD: ${DB_PASSWORD:-radyoloji_dev_pass}
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET .env dosyasinda tanimli olmali}
+      JWT_COOKIE_SECURE: ${JWT_COOKIE_SECURE:-false}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-anahtar-tanimli-degil}
+
+volumes:
+  postgres_data:
+  redis_data:

@@ -1,0 +1,9 @@
+target
+.git
+.vscode
+.idea
+.DS_Store
+.env
+mockup
+_to_delete
+*.md

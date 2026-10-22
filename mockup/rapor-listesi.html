@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Raporlarım</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-body">
+  <div class="navbar">
+    <div class="navbar-brand">Acil Radyoloji Raporlama Asistanı</div>
+    <div class="navbar-actions">
+      <a href="giris.html">Çıkış Yap</a>
+    </div>
+  </div>
+
+  <div class="page-container" style="max-width: 1080px;">
+    <div class="tabs">
+      <button type="button" class="tab-button active" data-tab="raporlarim">Raporlarım</button>
+      <button type="button" class="tab-button" data-tab="hastasec">Hasta Seç</button>
+    </div>
+
+    <!-- SEKME 1: Raporlarım -->
+    <div class="tab-panel" id="tab-raporlarim">
+      <div class="page-header">
+        <h1>Raporlarım</h1>
+      </div>
+
+      <div class="filter-bar">
+        <select name="durumFiltre">
+          <option value="">Durum: Tümü</option>
+          <option value="TASLAK">TASLAK</option>
+          <option value="ONAYLANDI">ONAYLANDI</option>
+        </select>
+        <select name="tetkikTuruFiltre">
+          <option value="">Tetkik Türü: Tümü</option>
+          <option value="BT">BT</option>
+          <option value="MR">MR</option>
+          <option value="GRAFI">Grafi</option>
+        </select>
+      </div>
+
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>Tarih</th>
+            <th>Hasta Adı Soyadı</th>
+            <th>Protokol No</th>
+            <th>Tetkik Türü</th>
+            <th>Anatomik Bölge</th>
+            <th>Aciliyet</th>
+            <th>Durum</th>
+            <th>Onaylayan</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>30.09.2026 14:12</td>
+            <td>Ayşe Yılmaz</td>
+            <td>P-2026-108452</td>
+            <td>BT</td>
+            <td>Kranial</td>
+            <td><span class="badge badge-kritik">KRİTİK</span></td>
+            <td><span class="badge badge-draft">TASLAK</span></td>
+            <td>—</td>
+            <td><a href="rapor-detay.html">Görüntüle</a></td>
+          </tr>
+          <tr>
+            <td>30.09.2026 11:47</td>
+            <td>Mehmet Kaya</td>
+            <td>P-2026-108440</td>
+            <td>BT</td>
+            <td>Toraks</td>
+            <td><span class="badge badge-rutin">RUTİN</span></td>
+            <td><span class="badge badge-approved">ONAYLANDI</span></td>
+            <td>Dr. Elif Şahin</td>
+            <td><a href="rapor-detay.html">Görüntüle</a></td>
+          </tr>
+          <tr>
+            <td>29.09.2026 22:05</td>
+            <td>Zeynep Demir</td>
+            <td>P-2026-108391</td>
+            <td>Grafi</td>
+            <td>Batın</td>
+            <td><span class="badge badge-kritik">KRİTİK</span></td>
+            <td><span class="badge badge-approved">ONAYLANDI</span></td>
+            <td>Dr. Tuğba Gülerman</td>
+            <td><a href="rapor-detay.html">Görüntüle</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SEKME 2: Hasta Seç -->
+    <div class="tab-panel hidden" id="tab-hastasec">
+      <div class="page-header">
+        <h1>Hasta Seç</h1>
+      </div>
+
+      <div class="split-layout">
+        <div class="patient-list-col">
+          <div class="search-bar">
+            <input type="text" placeholder="Ad, Dosya No veya TC Kimlik No ile ara...">
+          </div>
+          <div id="patientList"></div>
+        </div>
+
+        <div class="patient-detail-col">
+          <div class="detail-section">
+            <div class="detail-section-header"><h2>Hasta Bilgileri</h2></div>
+            <div class="info-panel" id="patientInfoPanel"></div>
+          </div>
+
+          <div class="detail-section">
+            <div class="detail-section-header"><h2>Önceki Raporlar</h2></div>
+            <table class="report-table">
+              <thead>
+                <tr>
+                  <th>Tarih</th>
+                  <th>Tetkik Türü</th>
+                  <th>Anatomik Bölge</th>
+                  <th>Durum</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="patientReportsBody"></tbody>
+            </table>
+          </div>
+
+          <a href="rapor-olustur.html" class="btn-primary-inline">+ Yeni Rapor</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---- Sekme geçişi ----
+    const tabButtons = document.querySelectorAll(".tab-button");
+    const tabPanels = {
+      raporlarim: document.getElementById("tab-raporlarim"),
+      hastasec: document.getElementById("tab-hastasec"),
+    };
+
+    function activateTab(name) {
+      tabButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.tab === name));
+      Object.entries(tabPanels).forEach(([key, el]) => el.classList.toggle("hidden", key !== name));
+    }
+
+    tabButtons.forEach(btn => btn.addEventListener("click", () => activateTab(btn.dataset.tab)));
+
+    // ---- Hasta Seç: liste / detay (aynı mockup verisi) ----
+    const patients = [
+      {
+        id: 1,
+        name: "Ayşe Yılmaz",
+        age: 47,
+        gender: "Kadın",
+        fileNo: "2026-00481",
+        tcMasked: "*******412",
+        reports: [
+          { date: "30.09.2026 13:40", examType: "BT", region: "Kranial", status: "TASLAK" },
+          { date: "12.06.2026 09:15", examType: "Grafi", region: "Toraks", status: "ONAYLANDI" }
+        ]
+      },
+      {
+        id: 2,
+        name: "Mehmet Kaya",
+        age: 62,
+        gender: "Erkek",
+        fileNo: "2026-00479",
+        tcMasked: "*******089",
+        reports: [
+          { date: "28.09.2026 18:02", examType: "BT", region: "Batın", status: "ONAYLANDI" }
+        ]
+      },
+      {
+        id: 3,
+        name: "Zeynep Demir",
+        age: 29,
+        gender: "Kadın",
+        fileNo: "2026-00475",
+        tcMasked: "*******256",
+        reports: []
+      }
+    ];
+
+    const listEl = document.getElementById("patientList");
+    const infoEl = document.getElementById("patientInfoPanel");
+    const reportsEl = document.getElementById("patientReportsBody");
+
+    function renderList(activeId) {
+      listEl.innerHTML = patients.map(p => `
+        <button type="button" class="patient-list-item ${p.id === activeId ? 'active' : ''}" data-id="${p.id}">
+          <div class="p-name">${p.name}</div>
+          <div class="p-meta">${p.fileNo} · ${p.age} / ${p.gender}</div>
+        </button>
+      `).join("");
+
+      listEl.querySelectorAll(".patient-list-item").forEach(btn => {
+        btn.addEventListener("click", () => selectPatient(Number(btn.dataset.id)));
+      });
+    }
+
+    function renderDetail(patient) {
+      infoEl.innerHTML = `
+        <div class="info-row"><span class="label">Ad Soyad</span><span class="value">${patient.name}</span></div>
+        <div class="info-row"><span class="label">Yaş</span><span class="value">${patient.age}</span></div>
+        <div class="info-row"><span class="label">Cinsiyet</span><span class="value">${patient.gender}</span></div>
+        <div class="info-row"><span class="label">Hasta Dosya No</span><span class="value">${patient.fileNo}</span></div>
+        <div class="info-row"><span class="label">TC Kimlik No</span><span class="value">${patient.tcMasked}</span></div>
+      `;
+
+      if (patient.reports.length === 0) {
+        reportsEl.innerHTML = `<tr><td colspan="5" style="color:var(--color-text-muted);">Bu hastaya ait daha önce yazılmış rapor yok.</td></tr>`;
+        return;
+      }
+
+      reportsEl.innerHTML = patient.reports.map(r => `
+        <tr>
+          <td>${r.date}</td>
+          <td>${r.examType}</td>
+          <td>${r.region}</td>
+          <td><span class="badge ${r.status === 'TASLAK' ? 'badge-draft' : 'badge-approved'}">${r.status}</span></td>
+          <td><a href="rapor-detay.html">Seç</a></td>
+        </tr>
+      `).join("");
+    }
+
+    function selectPatient(id) {
+      const patient = patients.find(p => p.id === id);
+      renderList(id);
+      renderDetail(patient);
+    }
+
+    selectPatient(patients[0].id);
+  </script>
+</body>
+</html>

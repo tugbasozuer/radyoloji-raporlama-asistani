@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kayıt Ol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="auth-wrapper">
+    <div class="brand">
+      <p class="brand-title">Acil Radyoloji Raporlama Asistanı</p>
+      <p class="brand-subtitle">Yapay zeka destekli raporlama sistemi</p>
+    </div>
+
+    <div class="auth-card">
+      <h1>Kayıt Ol</h1>
+      <form action="giris.html" method="get">
+        <div class="field">
+          <label for="fullName">Ad Soyad</label>
+          <input type="text" id="fullName" name="fullName" placeholder="ör. Ayşe Yılmaz" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="title">Ünvan <span class="optional">(isteğe bağlı)</span></label>
+          <select id="title" name="title">
+            <option value="">Seçiniz</option>
+            <option value="DR">Dr.</option>
+            <option value="ARS_GOR_DR">Arş. Gör. Dr.</option>
+            <option value="UZM_DR">Uzm. Dr.</option>
+            <option value="OGR_UYESI_DR">Dr. Öğr. Üyesi</option>
+            <option value="DOC_DR">Doç. Dr.</option>
+            <option value="PROF_DR">Prof. Dr.</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="phoneNumber">Telefon No <span class="optional">(isteğe bağlı)</span></label>
+          <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="ör. 0532 000 00 00" autocomplete="tel">
+        </div>
+        <div class="field">
+          <label for="registrationNumber">Sicil / Diploma No <span class="optional">(isteğe bağlı)</span></label>
+          <input type="text" id="registrationNumber" name="registrationNumber">
+        </div>
+        <div class="field">
+          <label for="department">Birim <span class="optional">(isteğe bağlı)</span></label>
+          <select id="department" name="department">
+            <option value="">Seçiniz</option>
+            <option value="RADYOLOJI">Radyoloji</option>
+            <option value="ACIL_SERVIS">Acil Servis</option>
+            <option value="DIGER">Diğer</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="email">E-posta adresi</label>
+          <input type="email" id="email" name="email" placeholder="ör. tugba@ornek.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="password">Şifre</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="new-password">
+        </div>
+        <div class="field">
+          <label for="passwordConfirm">Şifre (tekrar)</label>
+          <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="••••••••" autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn-primary">Kayıt Ol</button>
+      </form>
+      <div class="auth-switch">
+        Zaten hesabınız var mı? <a href="giris.html">Giriş yapın</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

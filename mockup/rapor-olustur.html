@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yeni Rapor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-body">
+  <div class="navbar">
+    <div class="navbar-brand">Acil Radyoloji Raporlama Asistanı</div>
+    <div class="navbar-actions">
+      <a href="giris.html">Çıkış Yap</a>
+    </div>
+  </div>
+
+  <div class="page-container narrow">
+    <div class="page-header badge-only">
+      <span id="statusBadge" class="badge badge-draft hidden">TASLAK</span>
+    </div>
+
+    <!-- Hasta ve Tetkik Bilgileri alt alta, kompakt. Hasta salt-okunur; Tetkik ilk kayıtta form, sonra salt-okunur -->
+    <div class="info-panels stack">
+      <div class="info-panel compact">
+        <h2>Hasta Bilgileri</h2>
+        <div class="kv-row">
+          <div class="kv"><span class="label">Ad Soyad</span><span class="value">Ayşe Yılmaz</span></div>
+          <div class="kv"><span class="label">Yaş</span><span class="value">47</span></div>
+          <div class="kv"><span class="label">Cinsiyet</span><span class="value">Kadın</span></div>
+          <div class="kv"><span class="label">Hasta Dosya No</span><span class="value">2026-00481</span></div>
+          <div class="kv"><span class="label">TC Kimlik No</span><span class="value">*******412</span></div>
+        </div>
+      </div>
+
+      <div class="info-panel compact">
+        <h2>Tetkik Bilgileri</h2>
+
+        <div class="tetkik-grid four" id="tetkikFields">
+          <div class="field">
+            <label for="protokolNo">Protokol No</label>
+            <input type="text" id="protokolNo" class="auto-field" readonly>
+          </div>
+          <div class="field">
+            <label for="tetkikTuru">Tetkik Türü</label>
+            <select id="tetkikTuru">
+              <option value="BT">BT</option>
+              <option value="MR">MR</option>
+              <option value="GRAFI">Grafi</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="anatomikBolge">Anatomik Bölge</label>
+            <select id="anatomikBolge">
+              <option value="Kranial">Kranial</option>
+              <option value="Toraks">Toraks</option>
+              <option value="Batın">Batın</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="tetkikTarihi">Tetkik Tarihi/Saati</label>
+            <input type="text" id="tetkikTarihi" class="auto-field" readonly>
+          </div>
+          <div class="field span-3">
+            <label for="istemHekim">İstem Yapan Hekim / Klinik</label>
+            <input type="text" id="istemHekim" class="auto-field" readonly>
+          </div>
+          <div class="checkbox-field">
+            <input type="checkbox" id="acilServisten">
+            <label for="acilServisten">Acil servisten mi geldi?</label>
+          </div>
+        </div>
+
+        <div class="kv-row hidden" id="tetkikReadonly">
+          <div class="kv"><span class="label">Protokol No</span><span class="value" id="rProtokolNo"></span></div>
+          <div class="kv"><span class="label">Tetkik Türü</span><span class="value" id="rTetkikTuru"></span></div>
+          <div class="kv"><span class="label">Anatomik Bölge</span><span class="value" id="rAnatomikBolge"></span></div>
+          <div class="kv"><span class="label">Tetkik Tarihi/Saati</span><span class="value" id="rTetkikTarihi"></span></div>
+          <div class="kv"><span class="label">İstem Yapan Hekim/Klinik</span><span class="value" id="rIstemHekim"></span></div>
+          <div class="kv"><span class="label">Acil Servis</span><span class="value" id="rAcilServisten"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GİRDİ GÖRÜNÜMÜ: sayfanın ortasında tek kart; Bulgular ve Sonuç / Öneriler ayrı iki alan -->
+    <div class="report-center" id="inputLayout">
+      <div class="form-card" id="inputSection">
+        <div class="field" style="margin-bottom:6px;">
+          <label for="fText">Bulgular</label>
+          <div class="hl-editor">
+            <div class="hl-mirror" id="hlMirror" aria-hidden="true"></div>
+            <textarea id="fText" class="report-text" spellcheck="false"></textarea>
+          </div>
+          <div class="field-hint">
+            Başlıklar sabittir; yalnızca başlığın yanına yazın. Yapı adlarını virgülle ayırın (ör. <em>İzlenmemiştir: ekstra-aksiyel koleksiyon, orta hat şifti</em>).
+            <em>Olağan Dışı Bulgular</em> serbest metindir, birden çok satır yazabilirsiniz. Boş bırakılan başlıklar rapora yansımaz.
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:18px;">
+          <label for="fSonuc">Sonuç / Öneriler</label>
+          <textarea id="fSonuc" style="min-height:90px;" placeholder="ör. Akut kanama, nöroşirürji konsültasyonu önerilir."></textarea>
+          <div class="field-hint">Serbest metin. Sistem ifadeyi onaylı sonuç cümlelerine eşler ve aciliyeti belirler.</div>
+        </div>
+
+        <div class="checkbox-field" style="margin-top:12px;">
+          <input type="checkbox" id="fNormalTetkik">
+          <label for="fNormalTetkik">Normal tetkik (sonuç: akut patolojik bulgu yok)</label>
+        </div>
+
+        <div id="previewWarnings"></div>
+        <div id="formError" class="warning-box hidden"></div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-primary" id="btnKaydet">Kaydet</button>
+          <button type="button" class="btn-secondary" id="btnVazgecForm">Vazgeç</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RAPOR KARTI: kaydedildikten sonra (TASLAK görüntüleme / ONAYLANDI) -->
+    <div class="form-card report-center hidden" id="reportSection">
+      <div class="report-content-block">
+        <span class="label">Aciliyet</span>
+        <div><span class="badge badge-rutin" id="urgencyBadge">RUTİN</span></div>
+      </div>
+      <div class="report-content-block">
+        <span class="label">Bulgular</span>
+        <div class="report-readonly-text findings-view" id="bulgularView"></div>
+      </div>
+      <div class="report-content-block">
+        <span class="label">Sonuç / Öneriler</span>
+        <div class="report-readonly-text findings-view" id="sonucView"></div>
+      </div>
+
+      <div class="action-row" id="draftViewActions">
+        <button type="button" class="btn-secondary" id="btnDegistir">Değiştir</button>
+        <button type="button" class="btn-danger" id="btnSil">Sil</button>
+        <button type="button" class="btn-success" id="btnOnayla">Onayla</button>
+        <a href="rapor-listesi.html" class="btn-secondary" style="text-decoration:none;display:inline-flex;align-items:center;">Vazgeç</a>
+      </div>
+      <div class="field-hint" id="approveHint"></div>
+
+      <div class="action-row hidden" id="approvedActions">
+        <button type="button" class="btn-secondary" id="btnDuzeltmeAc">Düzeltme Aç</button>
+        <a href="rapor-listesi.html" class="btn-secondary" style="text-decoration:none;display:inline-flex;align-items:center;">Raporlarım'a Dön</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="rapor.js"></script>
+  <script>
+    // mode: "new" = ilk kayıt (Tetkik alanları açık), "edit" = taslak düzenleme (Tetkik salt-okunur).
+    let mode = new URLSearchParams(location.search).has("duzenle") ? "edit" : "new";
+    let report = null;
+
+    // Başlık satırlarını metnin arkasında renkli kutuyla vurgular (textarea ile aynı yazı düzeni).
+    function escapeHtml(t) { return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
+    function renderMirror() {
+      const area = $("fText");
+      const html = area.value.split("\n").map(line => {
+        const m = line.match(/^(\s*)([^:]{1,40}:)(.*)$/);
+        const isHeading = m && HEADINGS.some(h => h.aliases.includes(fold(m[2].slice(0, -1))));
+        return isHeading
+          ? escapeHtml(m[1]) + "<mark>" + escapeHtml(m[2]) + "</mark>" + escapeHtml(m[3])
+          : escapeHtml(line);
+      }).join("\n");
+      $("hlMirror").innerHTML = html + "\n";
+      area.style.height = "auto";
+      area.style.height = Math.max(420, area.scrollHeight + 2) + "px";
+    }
+
+    function readInput() {
+      return { text: $("fText").value, sonuc: $("fSonuc").value, normalTetkik: $("fNormalTetkik").checked };
+    }
+
+    function writeInput(input) {
+      $("fText").value = canonicalText(input.text);
+      $("fSonuc").value = input.sonuc;
+      $("fNormalTetkik").checked = input.normalTetkik;
+    }
+
+    function readTetkik() {
+      return {
+        protokolNo: $("protokolNo").value,
+        tetkikTuru: $("tetkikTuru").value,
+        anatomikBolge: $("anatomikBolge").value,
+        tarih: $("tetkikTarihi").value,
+        istem: $("istemHekim").value,
+        acil: $("acilServisten").checked
+      };
+    }
+
+    function refreshWarnings() {
+      renderMirror();
+      const input = readInput();
+      const box = $("previewWarnings");
+      box.replaceChildren();
+      findConflicts(input).forEach(text => {
+        const div = document.createElement("div");
+        div.className = "warning-box";
+        div.textContent = text;
+        box.appendChild(div);
+      });
+    }
+
+    function setTetkikEditable(editable) {
+      $("tetkikFields").classList.toggle("hidden", !editable);
+      $("tetkikReadonly").classList.toggle("hidden", editable);
+    }
+
+    function showInputView() {
+      $("inputLayout").classList.remove("hidden");
+      $("reportSection").classList.add("hidden");
+      $("formError").classList.add("hidden");
+      setTetkikEditable(mode === "new");
+      refreshWarnings();
+    }
+
+    function showReportView() {
+      $("inputLayout").classList.add("hidden");
+      $("reportSection").classList.remove("hidden");
+      setTetkikEditable(false);
+      renderReportCard(report);
+    }
+
+    function validate(input) {
+      const missing = [];
+      const sections = parseReportText(input.text);
+      if (!Object.values(sections).some(v => v.trim())) missing.push("Bulgular");
+      return missing;
+    }
+
+    // Başlıklar sabit: yapıyı bozan (başlığı silen, bölen, sırasını değiştiren) her değişiklik geri alınır.
+    let prevText = "", prevSel = [0, 0];
+    $("fText").addEventListener("beforeinput", () => {
+      const a = $("fText");
+      prevText = a.value;
+      prevSel = [a.selectionStart, a.selectionEnd];
+    });
+    $("fText").addEventListener("input", () => {
+      const a = $("fText");
+      if (!structureOk(a.value)) {
+        a.value = prevText;
+        a.setSelectionRange(prevSel[0], prevSel[1]);
+      }
+    });
+
+    $("inputSection").addEventListener("input", refreshWarnings);
+    $("inputSection").addEventListener("change", refreshWarnings);
+
+    $("btnKaydet").addEventListener("click", () => {
+      const input = readInput();
+      const missing = validate(input);
+      if (missing.length) {
+        $("formError").textContent = "Zorunlu alanlar boş: " + missing.join(", ");
+        $("formError").classList.remove("hidden");
+        return;
+      }
+      if (mode === "new") {
+        report = { status: "TASLAK", tetkik: readTetkik(), input };
+        fillTetkikPanel(report.tetkik);
+        mode = "edit";
+      } else {
+        report.input = input;
+      }
+      showReportView();
+    });
+
+    $("btnVazgecForm").addEventListener("click", () => {
+      if (report) { showReportView(); } else { location.href = "rapor-listesi.html"; }
+    });
+
+    // Taslağı değiştirmek: doktor aynı metni düzenler, rapor yeniden üretilir.
+    $("btnDegistir").addEventListener("click", () => {
+      writeInput(report.input);
+      mode = "edit";
+      showInputView();
+    });
+
+    $("btnSil").addEventListener("click", () => {
+      if (confirm("Bu raporu silmek istediğinize emin misiniz? Bu işlem geri alınamaz.")) {
+        location.href = "rapor-listesi.html";
+      }
+    });
+
+    $("btnOnayla").addEventListener("click", () => { report.status = "ONAYLANDI"; renderReportCard(report); });
+
+    // Onaylı rapor değişmez; düzeltme, onaylı kaydı koruyup yeni bir TASLAK açar.
+    $("btnDuzeltmeAc").addEventListener("click", () => { report.status = "TASLAK"; renderReportCard(report); });
+
+    if (mode === "edit") {
+      // rapor-detay.html "Değiştir" -> bu sayfa, örnek raporla düzenleme modunda açılır.
+      report = sampleReport();
+      fillTetkikPanel(report.tetkik);
+      setStatusBadge(report.status);
+      writeInput(report.input);
+    } else {
+      $("fText").value = skeletonText();
+      // Rapor açıldığında sistem tarafından otomatik set edilen alanlar (gerçekte sunucu üretir)
+      const now = new Date();
+      const pad = n => String(n).padStart(2, "0");
+      $("protokolNo").value = "P-2026-108453";
+      $("tetkikTarihi").value = `${pad(now.getDate())}.${pad(now.getMonth() + 1)}.${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+      $("istemHekim").value = "Acil Servis";
+    }
+    showInputView();
+  </script>
+</body>
+</html>

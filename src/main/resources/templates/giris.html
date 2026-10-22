@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Giriş Yap')}"></head>
+
+<body>
+    <div class="auth-wrapper">
+        <div class="brand">
+            <p class="brand-title">Acil Radyoloji Raporlama Asistanı</p>
+            <p class="brand-subtitle">Yapay zeka destekli raporlama sistemi</p>
+        </div>
+
+        <div class="auth-card">
+            <h1>Giriş Yap</h1>
+            <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+            <div class="alert alert-error" th:if="${errorMessage}" th:text="${errorMessage}" data-clear-on-input></div>
+
+            <form th:action="@{/giris}" th:object="${form}" method="post">
+                <div class="field">
+                    <label for="email">E-posta adresi</label>
+                    <input type="email" th:field="*{email}" placeholder="ör. tugba@ornek.com" autocomplete="email">
+                    <div class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+                <div class="field">
+                    <label for="password">Şifre</label>
+                    <input type="password" th:field="*{password}" placeholder="••••••••"
+                        autocomplete="current-password">
+                    <div class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                </div>
+                <button type="submit" class="btn-primary">Giriş Yap</button>
+            </form>
+            <div class="auth-switch">
+                Hesabınız yok mu? <a th:href="@{/kayit}">Kayıt olun</a>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/form.js}"></script>
+</body>
+
+</html>

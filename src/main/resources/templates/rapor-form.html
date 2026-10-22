@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head(${editMode} ? 'Raporu Düzenle' : 'Yeni Rapor')}"></head>
+
+<body class="app-body">
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="page-container narrow">
+        <a class="back-button" th:if="${!editMode}" data-back-to-list
+            th:href="@{/hastalar(hastaId=${patient.id})}"><span aria-hidden="true">←</span> Geri</a>
+        <a class="back-button" th:if="${editMode}" th:href="@{/raporlar/{id}(id=${report.id})}"><span
+                aria-hidden="true">←</span> Geri</a>
+        <form th:action="${editMode} ? @{/raporlar/{id}(id=${report.id})} : @{/raporlar}" th:object="${form}"
+            method="post">
+
+            <div class="info-panels stack">
+                <div class="info-panel compact">
+                    <h2>Hasta Bilgileri</h2>
+                    <div class="kv-row">
+                        <div class="kv"><span class="label">Ad Soyad</span><span class="value"
+                                th:text="${patient.fullName}"></span></div>
+                        <div class="kv"><span class="label">Yaş</span><span class="value"
+                                th:text="${patient.age}"></span></div>
+                        <div class="kv"><span class="label">Cinsiyet</span><span class="value"
+                                th:text="${patient.gender}"></span></div>
+                        <div class="kv"><span class="label">Hasta Dosya No</span><span class="value"
+                                th:text="${patient.patientFileNumber}"></span></div>
+                        <div class="kv"><span class="label">TC Kimlik No</span><span class="value"
+                                th:text="${patient.maskedNationalId}"></span></div>
+                    </div>
+                </div>
+
+                <div class="info-panel compact">
+                    <h2>Tetkik Bilgileri</h2>
+
+                    <div class="tetkik-grid four" th:if="${!editMode}">
+                        <input type="hidden" th:field="*{patientId}">
+                        <div class="field">
+                            <label>Protokol No</label>
+                            <input type="text" class="auto-field" value="Kaydedilince atanır" readonly>
+                        </div>
+                        <div class="field">
+                            <label for="examType">Tetkik Türü</label>
+                            <select th:field="*{examType}">
+                                <option th:each="t : ${examTypes}" th:value="${t}" th:text="${t.displayName}"></option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="anatomicalRegion">Anatomik Bölge</label>
+                            <select th:field="*{anatomicalRegion}">
+                                <option th:each="r : ${regions}" th:value="${r}" th:text="${r.displayName}"></option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Tetkik Tarihi/Saati</label>
+                            <input type="text" class="auto-field" value="Kaydedilince atanır" readonly>
+                        </div>
+                        <div class="field span-3">
+                            <label>İstem Yapan Hekim / Klinik</label>
+                            <input type="text" class="auto-field" value="Acil Servis" readonly>
+                        </div>
+                        <div class="checkbox-field">
+                            <input type="checkbox" th:field="*{fromEmergencyDepartment}">
+                            <label th:for="${#ids.prev('fromEmergencyDepartment')}">Acil servisten mi geldi?</label>
+                        </div>
+                    </div>
+
+                    <div class="kv-row" th:if="${editMode}">
+                        <div class="kv"><span class="label">Protokol No</span><span class="value"
+                                th:text="${report.protocolNumber}"></span></div>
+                        <div class="kv"><span class="label">Tetkik Türü</span><span class="value"
+                                th:text="${report.examType.displayName}"></span></div>
+                        <div class="kv"><span class="label">Anatomik Bölge</span><span class="value"
+                                th:text="${report.anatomicalRegion.displayName}"></span></div>
+                        <div class="kv"><span class="label">Tetkik Tarihi/Saati</span><span class="value"
+                                th:text="${#temporals.format(report.examDateTime, 'dd.MM.yyyy HH:mm')}"></span></div>
+                        <div class="kv"><span class="label">İstem Yapan Hekim/Klinik</span><span class="value"
+                                th:text="${report.requester}"></span></div>
+                        <div class="kv"><span class="label">Acil Servis</span><span class="value"
+                                th:text="${report.fromEmergencyDepartment} ? 'Evet' : 'Hayır'"></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-center">
+                <div class="form-card">
+
+                    <div class="field" style="margin-bottom: 6px;">
+                        <label for="findingsInput">Bulgular</label>
+                        <div class="hl-editor">
+                            <div class="hl-mirror" id="hlMirror" aria-hidden="true"></div>
+                            <textarea th:field="*{findingsInput}" class="report-text" spellcheck="false"></textarea>
+                        </div>
+                        <div class="field-hint">
+                            Başlıklar sabittir; yalnızca başlığın yanına yazın. Yapı adlarını virgülle ayırın
+                            (ör. <em>İzlenmemiştir: ekstra-aksiyel koleksiyon, orta hat şifti</em>).
+                            <em>Olağan Dışı Bulgular</em> serbest metindir, birden çok satır yazabilirsiniz.
+                            Boş bırakılan başlıklar rapora yansımaz.
+                        </div>
+                        <div class="field-error" th:if="${#fields.hasErrors('findingsInput')}"
+                            th:errors="*{findingsInput}"></div>
+                    </div>
+
+                    <div class="field" style="margin-top: 18px;">
+                        <label for="resultInput">Sonuç / Öneriler</label>
+                        <textarea th:field="*{resultInput}" style="min-height: 90px;"
+                            placeholder="ör. Akut kanama, nöroşirürji konsültasyonu önerilir."></textarea>
+                        <div class="field-hint">Serbest metin. Sistem ifadeyi onaylı sonuç cümlelerine eşler ve
+                            aciliyeti belirler.</div>
+                    </div>
+
+                    <div class="checkbox-field" style="margin-top: 12px;">
+                        <input type="checkbox" th:field="*{normalExam}">
+                        <label th:for="${#ids.prev('normalExam')}">Normal tetkik (sonuç: akut patolojik bulgu
+                            yok)</label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Kaydet</button>
+                        <a class="btn-secondary"
+                            th:href="${editMode} ? @{/raporlar/{id}(id=${report.id})} : @{/hastalar(hastaId=${patient.id})}">Vazgeç</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script th:src="@{/js/form.js}"></script>
+    <script th:src="@{/js/rapor-form.js}"></script>
+    <script th:src="@{/js/navigation.js}"></script>
+</body>
+
+</html>

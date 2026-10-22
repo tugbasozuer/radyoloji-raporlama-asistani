@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Raporlarım')}"></head>
+
+<body class="app-body" data-remember-page>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="page-container" style="max-width: 1080px;">
+        <div th:replace="~{fragments/layout :: tabs('raporlarim')}"></div>
+
+        <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+        <div class="alert alert-error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+        <div class="page-header">
+            <h1>Raporlarım</h1>
+        </div>
+
+        <form class="filter-bar" th:action="@{/raporlar}" method="get" data-auto-submit>
+            <select name="durum">
+                <option value="">Durum: Tümü</option>
+                <option th:each="s : ${statuses}" th:value="${s}" th:text="${s.displayName}"
+                    th:selected="${s == selectedStatus}"></option>
+            </select>
+            <select name="tetkik">
+                <option value="">Tetkik Türü: Tümü</option>
+                <option th:each="t : ${examTypes}" th:value="${t}" th:text="${t.displayName}"
+                    th:selected="${t == selectedExamType}"></option>
+            </select>
+        </form>
+
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>Tarih</th>
+                    <th>Hasta Adı Soyadı</th>
+                    <th>Protokol No</th>
+                    <th>Tetkik Türü</th>
+                    <th>Anatomik Bölge</th>
+                    <th>Aciliyet</th>
+                    <th>Durum</th>
+                    <th>Onaylayan</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${#lists.isEmpty(reports)}">
+                    <td colspan="9" style="color: var(--color-text-muted);">Gösterilecek rapor yok.</td>
+                </tr>
+                <tr th:each="r : ${reports}">
+                    <td th:text="${#temporals.format(r.createdAt, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:text="${r.patient.fullName}"></td>
+                    <td th:text="${r.protocolNumber}"></td>
+                    <td th:text="${r.examType.displayName}"></td>
+                    <td th:text="${r.anatomicalRegion.displayName}"></td>
+                    <td>
+                        <span th:class="'badge badge-' + ${#strings.toLowerCase(r.urgencyLevel.name())}"
+                            th:text="${r.urgencyLevel.displayName}"></span>
+                    </td>
+                    <td>
+                        <span th:class="'badge ' + (${r.status.name() == 'TASLAK'} ? 'badge-draft' : 'badge-approved')"
+                            th:text="${r.status.displayName}"></span>
+                    </td>
+                    <td th:text="${r.approvedByName} ?: '—'"></td>
+                    <td><a th:href="@{/raporlar/{id}(id=${r.id})}">Görüntüle</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script th:src="@{/js/form.js}"></script>
+    <script th:src="@{/js/navigation.js}"></script>
+</body>
+
+</html>
