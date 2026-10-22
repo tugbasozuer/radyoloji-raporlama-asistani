@@ -1,5 +1,7 @@
 # AI-Assisted Emergency Radiology Reporting Assistant
 
+[![CI](https://github.com/tugbasozuer/radyoloji-raporlama-asistani/actions/workflows/ci.yml/badge.svg)](https://github.com/tugbasozuer/radyoloji-raporlama-asistani/actions/workflows/ci.yml)
+
 A web application that helps radiologists write **emergency radiology reports** faster. The radiologist types short, structured notes; the system expands them into a complete report (*Findings* and *Impression / Recommendations*), and the radiologist reviews, edits and approves the result. Nothing becomes final without the radiologist's approval (human-in-the-loop).
 
 > **Academic project.** Developed as a capstone project for the Hacettepe University Information Systems (non-thesis master's) program. It uses **synthetic data only** and is **not a medical device**; it must not be used for real clinical decisions.

@@ -1,0 +1,56 @@
+name: CI
+
+# Ana dala her push'ta ve ana dala acilan her pull request'te calisir.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Bu is akisinin depoda yalnizca okuma yetkisi vardir.
+permissions:
+  contents: read
+
+# Ayni dalda yeni bir calisma baslarsa eskisi iptal edilir.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Derle ve test et
+    runs-on: ubuntu-latest
+
+    # Uygulama testleri Redis'e baglanabilmelidir; yerel gelistirmedeki gibi 6379 portunda bir Redis acilir.
+    # PostgreSQL gerekmez: Testcontainers veritabani konteynerini testin icinde kendisi baslatir.
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
+    steps:
+      - name: Kodu al
+        uses: actions/checkout@v4
+
+      - name: JDK 21 kur
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven   # Maven bagimliliklari calismalar arasinda onbellekte tutulur
+
+      - name: Derle ve testleri calistir
+        run: ./mvnw -B verify
+
+      - name: Test raporlarini kaydet (yalnizca hata olursa)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
