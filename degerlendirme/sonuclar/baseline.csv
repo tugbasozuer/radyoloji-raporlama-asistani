@@ -1,0 +1,60 @@
+not_id;secilen_kategoriler;secilen_aciliyet;sure_us
+N01;Akut Kanama;KRITIK;258.583
+N02;Akut Kanama;KRITIK;19.417
+N03;Akut Kanama;KRITIK;14.042
+N04;Akut İskemi;KRITIK;11.375
+N05;Akut İskemi;KRITIK;8.375
+N06;Akut İskemi;KRITIK;9.916
+N07;Pnömotoraks;KRITIK;8.500
+N08;Pnömotoraks;KRITIK;7.875
+N09;Pnömotoraks;KRITIK;7.333
+N10;Pulmoner Emboli;KRITIK;12.458
+N11;Pulmoner Emboli;KRITIK;7.667
+N12;Pulmoner Emboli;KRITIK;7.000
+N13;Serbest Hava;KRITIK;8.084
+N14;Serbest Hava;KRITIK;8.541
+N15;Serbest Hava;KRITIK;6.625
+N16;;BELIRSIZ;8.334
+N17;Kırık;ACIL;7.458
+N18;Kırık;ACIL;7.000
+N19;Pnömoni;ACIL;9.000
+N20;Pnömoni;ACIL;6.917
+N21;Pnömoni;ACIL;8.417
+N22;;BELIRSIZ;9.375
+N23;Barsak Tıkanıklığı;ACIL;10.250
+N24;Barsak Tıkanıklığı;ACIL;7.750
+N25;İleri İnceleme Önerisi;RUTIN;11.792
+N26;İleri İnceleme Önerisi;RUTIN;11.458
+N27;İleri İnceleme Önerisi;RUTIN;12.291
+N28;;BELIRSIZ;11.084
+N29;;BELIRSIZ;7.250
+N30;;BELIRSIZ;11.250
+N31;;BELIRSIZ;8.542
+N32;;BELIRSIZ;9.125
+N33;;BELIRSIZ;12.417
+N34;;BELIRSIZ;12.334
+N35;;BELIRSIZ;10.459
+N36;;BELIRSIZ;14.000
+N37;Akut Kanama;KRITIK;8.333
+N38;Pnömotoraks;KRITIK;8.458
+N39;Pulmoner Emboli;KRITIK;11.250
+N40;Kırık;ACIL;8.375
+N41;Serbest Hava;KRITIK;6.500
+N42;;BELIRSIZ;9.250
+N43;Pnömotoraks|Pnömoni;KRITIK;19.083
+N44;Akut Kanama;KRITIK;11.750
+N45;Pulmoner Emboli;KRITIK;10.042
+N46;;BELIRSIZ;9.916
+N47;;BELIRSIZ;9.333
+N48;;BELIRSIZ;10.208
+N49;Pnömotoraks|Pnömoni;KRITIK;11.166
+N50;Akut Kanama|Kırık;KRITIK;11.667
+N51;Serbest Hava;KRITIK;10.459
+N52;İleri İnceleme Önerisi;RUTIN;9.291
+N53;Pulmoner Emboli|Pnömoni;KRITIK;15.250
+N54;;BELIRSIZ;6.958
+N55;;BELIRSIZ;10.292
+N56;;BELIRSIZ;9.459
+N57;;BELIRSIZ;7.750
+N58;;BELIRSIZ;8.916
+N59;İleri İnceleme Önerisi;RUTIN;11.375

@@ -1,0 +1,7 @@
+tarih=2026-11-18T13:12:35.124542+03:00
+model=claude-haiku-5-5
+java=21.0.11
+isletim_sistemi=Mac OS X 27.2
+not_sayisi=59
+calisma_sayisi=3
+anahtar_kelime_terim_sayisi=25

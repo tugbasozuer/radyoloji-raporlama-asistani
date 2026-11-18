@@ -1,0 +1,6 @@
+yan       N=37  üç çalışmada da korunan n=37   (çalışma bazlı 111/111)
+olcu      N=19  üç çalışmada da korunan n=19   (çalışma bazlı 57/57)
+negatif   N=11  üç çalışmada da korunan n=11   (çalışma bazlı 33/33)
+kesinlik  N=14  üç çalışmada da korunan n=14   (çalışma bazlı 42/42)
+Çıktıda girdide olmayan yan bilgisi eklenen satır: 0
+Çıktıda girdide olmayan ölçü eklenen satır: 0

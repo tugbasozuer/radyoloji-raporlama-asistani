@@ -1,0 +1,48 @@
+N = 59
+ANAHTAR KELIME  tam_eslesme=0.5763 makro_f1=0.7236 aciliyet=0.5932 kacirilan_KRITIK=7/26
+  sure_us medyan=9.4 p95=15.6
+LLM calisma 1   tam_eslesme=0.9492 makro_f1=0.9697 aciliyet=0.9661 kacirilan_KRITIK=0/26
+LLM calisma 2   tam_eslesme=0.9492 makro_f1=0.9697 aciliyet=0.9661 kacirilan_KRITIK=0/26
+LLM calisma 3   tam_eslesme=0.9492 makro_f1=0.9697 aciliyet=0.9661 kacirilan_KRITIK=0/26
+LLM tam_eslesme ort=0.9492 ss=0.0000
+LLM makro_f1 ort=0.9697 ss=0.0000
+LLM aciliyet ort=0.9661 ss=0.0000
+LLM sure_ms (177 cagri) medyan=1787 p95=3166
+hata_sayisi=0 ai_destekli_false=0 listede_olmayan_toplam=0
+
+Kategori F1 (anahtar kelime | LLM 1,2,3):
+  Akut Kanama              0.67 | 1.00 1.00 1.00
+  Akut İskemi              0.86 | 1.00 1.00 1.00
+  Pnömotoraks              0.67 | 1.00 1.00 1.00
+  Pulmoner Emboli          0.73 | 1.00 1.00 1.00
+  Serbest Hava             0.80 | 1.00 1.00 1.00
+  Kırık                    0.50 | 1.00 1.00 1.00
+  Pnömoni                  0.92 | 0.73 0.73 0.73
+  Barsak Tıkanıklığı       0.57 | 1.00 1.00 1.00
+  İleri İnceleme Önerisi   0.80 | 1.00 1.00 1.00
+
+Grup bazlı tam eşleşme (anahtar kelime | LLM ortalaması):
+  dogrudan      n=27  B=0.93  L=0.96
+  es_anlamli    n= 9  B=0.00  L=1.00
+  negatif       n= 9  B=0.11  L=0.89
+  yazim_hatasi  n= 3  B=0.00  L=1.00
+  coklu         n= 5  B=0.60  L=0.80
+  uymayan       n= 6  B=0.83  L=1.00
+
+Anahtar kelime karmaşıklık matrisi (satır gerçek, sütun tahmin):
+          KRITIK  ACIL  RUTIN  BELIRSIZ
+KRITIK        19     0      0         7
+ACIL           2     7      1         6
+RUTIN          0     0      3         1
+BELIRSIZ       5     1      1         6
+LLM calisma 1 karmaşıklık matrisi:
+          KRITIK  ACIL  RUTIN  BELIRSIZ
+KRITIK        26     0      0         0
+ACIL           0    14      0         2
+RUTIN          0     0      4         0
+BELIRSIZ       0     0      0        13
+
+3 çalışmada aynı kategori ve aciliyeti veren not: 59 / 59
+Anahtar kelime kaçırılan KRITIK: ['N28', 'N29', 'N30', 'N31', 'N35', 'N46', 'N48']
+LLM kaçırılan KRITIK (çalışma 1,2,3): [[], [], []]
+LLM tam eşleşmeyen notlar: ['N20', 'N43', 'N49']
