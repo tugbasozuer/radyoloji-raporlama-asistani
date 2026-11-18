@@ -1,0 +1,60 @@
+id;grup;olagan_disi_not;sonuc_notu;dogru_kategoriler;dogru_aciliyet;bilgi_ogeleri
+N01;dogrudan;Sol temporal lobda 14 mm hiperdens odak;Sol temporal lobda akut kanama ile uyumlu bulgu.;Akut Kanama;KRITIK;yan|olcu|kesinlik
+N02;dogrudan;Sağ böbrek çevresinde yağ planlarında dansite artışı, yaklaşık 3 cm;Sağ perirenal hematom düşünülmüştür.;Akut Kanama;KRITIK;yan|olcu|kesinlik
+N03;dogrudan;Dalak komşuluğunda sıvı ve hiperdens alan;Splenik laserasyona bağlı intraabdominal hemoraji.;Akut Kanama;KRITIK;-
+N04;dogrudan;Sağ MCA sulama alanında hipodansite, yaklaşık 2 cm;Sağ MCA alanında akut iskemi ile uyumlu.;Akut İskemi;KRITIK;yan|olcu|kesinlik
+N05;dogrudan;Sol oksipital lobda difüzyon kısıtlılığı;Sol oksipital lobda akut infarkt.;Akut İskemi;KRITIK;yan
+N06;dogrudan;Mezenterik damarlarda kontrastlanma azlığı;Barsak duvarında iskemi şüphesi.;Akut İskemi;KRITIK;kesinlik
+N07;dogrudan;Sağ hemitoraksta apikalde 2 cm plevral mesafe;Sağ pnömotoraks mevcuttur.;Pnömotoraks;KRITIK;yan|olcu
+N08;dogrudan;Sol akciğerde kollaps, mediastinal şift yok;Sol pnömotoraks izlenmektedir.;Pnömotoraks;KRITIK;yan|negatif
+N09;dogrudan;Her iki apikalde ince hava çizgisi;Bilateral küçük pnömotoraks.;Pnömotoraks;KRITIK;yan
+N10;dogrudan;Sağ ana pulmoner arterde dolum defekti;Sağ ana pulmoner arterde pulmoner emboli ile uyumlu dolum defekti.;Pulmoner Emboli;KRITIK;yan|kesinlik
+N11;dogrudan;Sol alt lob segmenter dalda 8 mm dolum defekti;Sol alt lob segmenter pulmoner emboli.;Pulmoner Emboli;KRITIK;yan|olcu
+N12;dogrudan;Her iki ana pulmoner arter dallarında dolum defektleri;Bilateral pulmoner emboli.;Pulmoner Emboli;KRITIK;yan
+N13;dogrudan;Karın ön duvarı altında yaklaşık 4 cm serbest hava;Subdiyafragmatik serbest hava mevcuttur.;Serbest Hava;KRITIK;olcu
+N14;dogrudan;Mide duvarında defekt ve çevresinde hava kabarcıkları;Gastrik perforasyon şüphesi.;Serbest Hava;KRITIK;kesinlik
+N15;dogrudan;Batın içinde yaygın hava kabarcıkları;Pnömoperitoneum.;Serbest Hava;KRITIK;-
+N16;dogrudan;Sağ distal radiusta kortikal devamsızlık;Sağ distal radius kırığı.;Kırık;ACIL;yan
+N17;dogrudan;L1 vertebra korpusunda yaklaşık %30 yükseklik kaybı;L1 vertebrada kompresyon fraktürü.;Kırık;ACIL;olcu
+N18;dogrudan;Sol 4-6. kostalarda kortikal kesintiler;Sol 4, 5 ve 6. kot fraktürleri.;Kırık;ACIL;yan
+N19;dogrudan;Sağ alt lobda hava bronkogramı içeren alan;Sağ alt lob pnömonisi ile uyumlu.;Pnömoni;ACIL;yan|kesinlik
+N20;dogrudan;Sol akciğer alt zonda 3 cm alan;Sol alt zonda konsolidasyon.;Pnömoni;ACIL;yan|olcu
+N21;dogrudan;Her iki akciğer bazal zonlarında infiltrasyon;Bilateral pnömoni bulguları.;Pnömoni;ACIL;yan
+N22;dogrudan;İnce barsak ansları 3,5 cm'ye kadar dilate, hava-sıvı seviyeleri;İnce barsak tıkanıklığı.;Barsak Tıkanıklığı;ACIL;olcu
+N23;dogrudan;Kolonda dilatasyon, çekum çapı 9 cm;Kolon obstrüksiyonu düşündürmektedir.;Barsak Tıkanıklığı;ACIL;olcu|kesinlik
+N24;dogrudan;Dilate ince barsak ansları, kolon dekompresse;Mekanik ileus ile uyumlu.;Barsak Tıkanıklığı;ACIL;kesinlik
+N25;dogrudan;Sağ akciğer üst lobda 8 mm nodül;Sağ üst lobdaki 8 mm nodül için ileri inceleme önerilir.;İleri İnceleme Önerisi;RUTIN;yan|olcu
+N26;dogrudan;Karaciğer sağ lobda 12 mm hipodens lezyon;Karaciğer sağ lobdaki lezyon için kontrol MR önerilir.;İleri İnceleme Önerisi;RUTIN;yan|olcu
+N27;dogrudan;Sol adneksiyal bölgede 5 cm kistik yapı;Sol adneksiyal kistik yapı için ileri görüntüleme önerilir.;İleri İnceleme Önerisi;RUTIN;yan|olcu
+N28;es_anlamli;Sağ parietalde 25 mm hiperdens alan;Sağ parietalde intraparankimal kan koleksiyonu.;Akut Kanama;KRITIK;yan|olcu
+N29;es_anlamli;Sol brakiyal arter distalinde kontrastlanma kaybı;Sol brakiyal arterde akut oklüzyon.;Akut İskemi;KRITIK;yan
+N30;es_anlamli;Sağ hemitoraksta akciğer çevresinde hava ve parsiyel kollaps;Sağ akciğer çevresinde hava birikimi, kısmi kollaps.;Pnömotoraks;KRITIK;yan
+N31;es_anlamli;Sol pulmoner arter inferior dalında hipodens odak;Sol pulmoner arter dalında trombüs.;Pulmoner Emboli;KRITIK;yan
+N32;es_anlamli;Proksimal ince barsak ansları dilate, distalde kollabe;Bağırsakta mekanik geçiş engeli.;Barsak Tıkanıklığı;ACIL;-
+N33;es_anlamli;Sol klavikula orta kesimde kortikal devamsızlık;Sol klavikula orta kesimde deplasman gösteren kemik devamsızlığı.;Kırık;ACIL;yan
+N34;es_anlamli;Sağ alt lobda havalanma kaybı;Sağ alt lobda enfeksiyöz infiltrasyon ile uyumlu bulgular.;Pnömoni;ACIL;yan|kesinlik
+N35;es_anlamli;Karın içinde karaciğer önünde hava;Karın içinde ekstralüminal hava mevcuttur.;Serbest Hava;KRITIK;-
+N36;es_anlamli;Karaciğer sol lobda 15 mm lezyon;Karaciğer sol lobdaki lezyon için dinamik MR ile değerlendirme önerilir.;İleri İnceleme Önerisi;RUTIN;yan|olcu
+N37;negatif;Beyin parankiminde fokal dansite değişikliği yok.;Kanama izlenmemiştir.;;BELIRSIZ;negatif
+N38;negatif;Plevral mesafede sıvı yok.;Pnömotoraks izlenmemiştir.;;BELIRSIZ;negatif
+N39;negatif;Ana pulmoner arter dalları açık.;Pulmoner arterlerde dolum defekti saptanmamıştır.;;BELIRSIZ;negatif
+N40;negatif;Sağ ayak bileğinde kemik yapılar normal.;Kırık hattı izlenmemiştir.;;BELIRSIZ;yan|negatif
+N41;negatif;Barsak ansları normal çaplı.;Serbest hava yoktur.;;BELIRSIZ;negatif
+N42;negatif;Kolon çapı normal.;Barsak tıkanıklığı lehine bulgu yoktur.;;BELIRSIZ;negatif
+N43;negatif;Sağ alt lobda 4 cm hava bronkogramlı alan;Pnömotoraks izlenmemiştir. Sağ alt lobda konsolidasyon alanı mevcuttur.;Pnömoni;ACIL;yan|olcu|negatif
+N44;negatif;Sağ femur boyun düzeyinde kortikal devamsızlık;Akut kanama saptanmamıştır. Sağ femur boyun kırığı mevcuttur.;Kırık;ACIL;yan|negatif
+N45;negatif;Santral pulmoner arterler normal kalibrasyonda.;Pulmoner emboli lehine bulgu izlenmemiştir.;;BELIRSIZ;negatif
+N46;yazim_hatasi;Sağ akciğerde ince hava çizgisi;Sağ akciğerde pnomotoraks mevcuttur.;Pnömotoraks;KRITIK;yan
+N47;yazim_hatasi;Sol tibia diyafizinde kortikal devamsızlık;Sol tibiada krık hattı izlenmektedir.;Kırık;ACIL;yan
+N48;yazim_hatasi;Sağ temporalde 18 mm hiperdens odak;Sağ temporalde akut kanaama ile uyumlu bulgu.;Akut Kanama;KRITIK;yan|olcu|kesinlik
+N49;coklu;Sağ akciğerde apikalde hava, alt lobda parankimal alan;Sağ pnömotoraks ve sağ alt lobda konsolidasyon.;Pnömotoraks|Pnömoni;KRITIK;yan
+N50;coklu;Sol parietalde hiperdens odak, kafa tabanında kortikal devamsızlık;Sol parietalde akut kanama. Kafa tabanında kırık hattı.;Akut Kanama|Kırık;KRITIK;yan
+N51;coklu;Dilate ince barsak ansları ve batında hava;Serbest hava ve ince barsak tıkanıklığı mevcuttur.;Serbest Hava|Barsak Tıkanıklığı;KRITIK;-
+N52;coklu;Sağ femur diyafizinde kortikal devamsızlık;Sağ femur kırığı. Kontrol BT önerilir.;Kırık|İleri İnceleme Önerisi;ACIL;yan
+N53;coklu;Sağ alt lobda alan, pulmoner arter dallarında dolum defektleri;Pulmoner emboli ile uyumlu dolum defektleri. Sağ alt lobda pnömoni bulguları.;Pulmoner Emboli|Pnömoni;KRITIK;yan|kesinlik
+N54;uymayan;Sol böbrek üst polde 1 cm düzgün konturlu kistik lezyon;Sol böbrekte basit kist.;;BELIRSIZ;yan|olcu
+N55;uymayan;Lomber vertebralarda osteofitik değişiklikler;Lomber vertebralarda dejeneratif değişiklikler.;;BELIRSIZ;-
+N56;uymayan;Karaciğer dansitesinde yaygın azalma;Karaciğerde yağlanma ile uyumlu bulgu.;;BELIRSIZ;kesinlik
+N57;uymayan;Safra kesesi lümeninde 9 mm hiperdens odak;Safra kesesinde taş.;;BELIRSIZ;olcu
+N58;uymayan;Sağ maksiller sinüste mukoza kalınlaşması;Sağ maksiller sinüzit ile uyumlu.;;BELIRSIZ;yan|kesinlik
+N59;uymayan;Mediastende belirgin lenf nodu yok.;Bulgular klinik korelasyon ile değerlendirilmelidir.;;BELIRSIZ;negatif
