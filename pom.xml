@@ -31,6 +31,8 @@
 		<java.version>21</java.version>
 		<jjwt.version>0.13.0</jjwt.version>
 		<spring-ai.version>2.0.1</spring-ai.version>
+		<!-- Gercek API cagrisi yapan degerlendirme testleri varsayilan "mvn test" ve CI disinda tutulur. -->
+		<excludedGroups>degerlendirme</excludedGroups>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -213,5 +215,16 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<!-- ./mvnw test -Pdegerlendirme : yalnizca @Tag("degerlendirme") testlerini calistirir (ANTHROPIC_API_KEY gerekir). -->
+		<profile>
+			<id>degerlendirme</id>
+			<properties>
+				<excludedGroups>yok</excludedGroups>
+				<groups>degerlendirme</groups>
+			</properties>
+		</profile>
+	</profiles>
 
 </project>
